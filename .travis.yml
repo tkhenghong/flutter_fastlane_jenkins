@@ -12,10 +12,6 @@
 # Executing Gradle builds on Travis CI:
 # https://guides.gradle.org/executing-gradle-builds-on-travisci/#enable_caching_of_downloaded_artifacts
 
-# language: java tells Travis this project uses Java to run.
-language: java
-install: true
-
 # If you don't mention os: something, it will choose linux as default.
 
 # You can tell Travis CI to use which os (operating system), arch (CPU architecture)
@@ -23,13 +19,7 @@ install: true
 # https://docs.travis-ci.com/user/reference/overview/
 
 # Automatically below uses Linux OS, amd64 (armv8) CPU architecture and use bionic distribution.
-dist: bionic
-
-# You can write one JDK to compile your project with that JDK. You can write multiple JDKs to test out
-# whether your project can run those version of JDKs.
-jdk:
-  - oraclejdk8
-  - openjdk8
+dist: focal
 
 # Login into Docker before start performing scripts
 # Already added $DOCKER_PASSWORD and $DOCKER_USERNAME variables in Travis CI website before write the command here.
@@ -43,15 +33,3 @@ before_install:
 script:
   - docker build -t tkhenghong/flutter_fastlane_jenkins .
   - docker push tkhenghong/flutter_fastlane_jenkins:latest
-
-# Reuse Gradle wrapper and caches for faster build:
-# https://guides.gradle.org/executing-gradle-builds-on-travisci/#enable_caching_of_downloaded_artifacts
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-# Tells Travis CI which directory to save Gradle wrapper and it's cache.
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
