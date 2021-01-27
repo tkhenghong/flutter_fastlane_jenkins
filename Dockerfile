@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV ANDROID_HOME="/opt/android-sdk" \
     ANDROID_NDK="/opt/android-ndk" \
@@ -161,7 +161,7 @@ RUN echo "kotlin" && \
 
 RUN echo "Flutter sdk" && \
     cd /opt && \
-    wget --quiet https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.0-stable.tar.xz -O flutter.tar.xz && \
+    wget --quiet https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.6-stable.tar.xz -O flutter.tar.xz && \
     tar xf flutter.tar.xz && \
     flutter config --no-analytics && \
     rm -f flutter.tar.xz
@@ -187,6 +187,14 @@ RUN echo "fastlane" && \
     mkdir -p /.fastlane && \
     chmod 777 /.fastlane && \
     bundle install --quiet
+
+RUN echo "Install Jenkins" && \
+    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add - && \
+    sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && \
+    sudo apt update && \
+    sudo apt install jenkins && \
+    sudo ufw allow 8080
+
 
 COPY README.md /README.md
 
