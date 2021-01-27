@@ -1,0 +1,1 @@
+Testing of building Jenkins Docker with built in Flutter, Android, Ruby Gems, bundler and fastlane tools, all required tools for building Flutter applications in one Docker image.
